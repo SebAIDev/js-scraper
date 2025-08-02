@@ -11,13 +11,11 @@ app.get('/', async (req, res) => {
   let browser = null;
 
   try {
-    const executablePath = await chromium.executablePath;
-
     browser = await chromium.puppeteer.launch({
       args: chromium.args,
-      executablePath: executablePath || '/usr/bin/chromium-browser',
-      headless: chromium.headless,
       defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath, // ✅ Do NOT hardcode anything here
+      headless: chromium.headless,
     });
 
     const page = await browser.newPage();
