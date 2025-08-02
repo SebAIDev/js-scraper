@@ -1,8 +1,9 @@
 {
-  "name": "puppeteer-scraper",
+  "name": "puppeteer-render-scraper",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "postinstall": "puppeteer install",
     "start": "node index.js"
   },
   "dependencies": {
