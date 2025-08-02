@@ -2,9 +2,9 @@ const express = require('express');
 const chromium = require('chrome-aws-lambda');
 const app = express();
 
-app.get('/scrape', async (req, res) => {
+app.get('/', async (req, res) => {
   const url = req.query.url;
-  if (!url) return res.status(400).json({ error: 'Missing URL' });
+  if (!url) return res.status(400).send({ error: 'Missing ?url=' });
 
   let browser = null;
 
@@ -23,9 +23,8 @@ app.get('/scrape', async (req, res) => {
     const title = await page.title();
 
     res.json({ title, content });
-
-  } catch (err) {
-    res.status(500).json({ error: 'Scraping failed', details: err.message });
+  } catch (error) {
+    res.status(500).send({ error: 'Scraping failed', details: error.message });
   } finally {
     if (browser !== null) await browser.close();
   }
@@ -33,5 +32,5 @@ app.get('/scrape', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
