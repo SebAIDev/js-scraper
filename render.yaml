@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: js-scraper
+    env: node
+    plan: free
+    buildCommand: npm install && npx playwright install --with-deps
+    startCommand: node index.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18.20.0
