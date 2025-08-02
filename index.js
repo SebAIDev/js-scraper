@@ -1,21 +1,18 @@
 const express = require('express');
-const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get('/', async (req, res) => {
   const url = req.query.url;
-  if (!url) return res.status(400).send({ error: 'Missing ?url=' });
+  if (!url) return res.status(400).json({ error: 'Missing ?url=' });
 
-  let browser = null;
-
+  let browser;
   try {
-    browser = await chromium.puppeteer.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath, // ✅ Do NOT hardcode anything here
-      headless: chromium.headless,
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: true,
     });
 
     const page = await browser.newPage();
@@ -28,10 +25,10 @@ app.get('/', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Scraping failed', details: err.message });
   } finally {
-    if (browser !== null) await browser.close();
+    if (browser) await browser.close();
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+  console.log(`✅ Server is running on port ${PORT}`);
 });
