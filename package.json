@@ -1,13 +1,14 @@
 {
   "name": "puppeteer-render-scraper",
   "version": "1.0.0",
+  "description": "Serverless Puppeteer scraper for Render",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-  "express": "^4.18.2",
-  "puppeteer": "^21.3.8"
-}
-
+    "chrome-aws-lambda": "^10.1.0",
+    "puppeteer-core": "^10.1.0",
+    "express": "^4.18.2"
+  }
 }
